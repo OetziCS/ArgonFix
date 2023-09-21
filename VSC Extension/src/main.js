@@ -195,7 +195,7 @@ function stopDebugging() {
 
 function githubplugintoroblox() {
     let url = prompt("Enter URL of the public Repro.")
-    
+
 }
 
 function openMenu() {
@@ -229,7 +229,7 @@ function openMenu() {
             action: 'launchStudio'
         },
         {
-            label: '${extensions} Github Repro to Roblox Plugin',
+            label: '$(extensions) Github Repro to Roblox Plugin',
             detail: "Imports a Github Repro to Roblox Studio",
             action: 'GithubtoRobloxPlugin'
         }
