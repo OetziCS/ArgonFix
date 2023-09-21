@@ -193,6 +193,11 @@ function stopDebugging() {
     }
 }
 
+function githubplugintoroblox() {
+    let url = prompt("Enter URL of the public Repro.")
+    
+}
+
 function openMenu() {
     let quickPick = vscode.window.createQuickPick()
 
@@ -222,6 +227,11 @@ function openMenu() {
             label: '$(run-all) Launch Roblox Studio',
             detail: "Open new Roblox Studio instance",
             action: 'launchStudio'
+        },
+        {
+            label: '${extensions} Github Repro to Roblox Plugin',
+            detail: "Imports a Github Repro to Roblox Studio",
+            action: 'GithubtoRobloxPlugin'
         }
     ]
 
@@ -289,6 +299,9 @@ function openMenu() {
                 launchStudio()
                 quickPick.dispose()
                 break
+            case 'GithubtoRobloxPlugin':
+                githubplugintoroblox()
+                break
         }
     })
 
@@ -324,8 +337,9 @@ async function activate(context) {
     let startCommand = vscode.commands.registerCommand('argon.startDebug', debugStart)
     let executeCommand = vscode.commands.registerCommand('argon.executeSnippet', executeSnippet)
     let stopDebuggingCommand = vscode.commands.registerCommand('argon.stopDebugging', stopDebugging)
+    let githubtoRobloxCommand = vscode.commands.registerCommand('argon.GithubtoRobloxPlugin', githubplugintoroblox)
 
-    context.subscriptions.push(menuCommand, playCommand, runCommand, startCommand, executeCommand, stopDebuggingCommand)
+    context.subscriptions.push(menuCommand, playCommand, runCommand, startCommand, executeCommand, stopDebuggingCommand, githubtoRobloxCommand)
     server.setVersion(context.extension.packageJSON.version)
     extensionMode = context.extensionMode
 

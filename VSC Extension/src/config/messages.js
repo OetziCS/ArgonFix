@@ -2,6 +2,7 @@ module.exports = {
     //Informations
     argonRunning: 'Argon is now running!',
     argonStopped: 'Argon stopped!',
+    pluginImported: 'Successfully imported Plugin!',
 
     //Warnings
     notRunning : 'Argon is not running!',
@@ -13,5 +14,6 @@ module.exports = {
     noRootFolder: 'Root folder cannot be found!',
     robloxStudioLaunch: 'Could not launch Roblox Studio!',
     unsupportedOS: 'This feature is not support on your OS!',
+    pluginImportedFailed: 'Failed to import Plugin!',
     unsupportedVersion: 'You are using unsupported VSC version, some of the features may not work!'
 }
