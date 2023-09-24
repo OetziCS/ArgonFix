@@ -193,9 +193,84 @@ function stopDebugging() {
     }
 }
 
-function githubplugintoroblox() {
-    let url = prompt("Enter URL of the public Repro.")
+async function githubplugintoroblox() {
+    if (!isRunning) {
+        return;
+    }
 
+    const URL = await vscode.window.showInputBox({
+          placeHolder: 'https://github.com/DervexHero/Argon',
+          prompt: 'GitHub URL',
+          validateInput: (val) => {
+            if ('' === val) {
+              return 'Please enter a url!';
+            }
+            if (val.startsWith('https://github.com/') !== true) {
+                return 'Please enter a github url starting with https://github.com';
+            }
+            if (val.length < 22) {
+                return 'Please enter a valid url!'
+            }
+          },
+        });
+    
+      if ('' === URL) {
+        return;
+      }
+
+    const RELEASE = await vscode.window.showInputBox({
+        placeHolder: '1.0.0 (or main)',
+        prompt: 'GitHub Release Tag',
+    });
+
+    const SUBFOLDER = await vscode.window.showInputBox({
+        placeHolder: 'RBLX Plugin (optional)',
+        prompt: 'Repository Subfolder',
+    });
+
+    let urlmatched = URL.match(/github\.com\/([\w_-]+)\/([\w_-]+)/);
+    let apiURL = `https://api.github.com/repos/${urlmatched[1]}/${urlmatched[2]}/git/trees/${RELEASE}?recursive=1`;
+    const requestOptions = {
+        headers: {
+          'User-Agent': 'GitHub-to-Roblox-Plugin',
+        },
+    };
+
+
+    const response2 = https.get(apiURL, requestOptions, (response) => {
+    let data = '';
+    response.on('data', (chunk) => {
+        data += chunk;
+    });
+
+    response.on('end', () => {  
+        if (data === '') return;
+        const tree = JSON.parse(data);
+
+        const filteredFiles = SUBFOLDER
+            ? tree.tree.filter((file) => file.path.startsWith(SUBFOLDER))
+            : tree.tree;
+
+        filteredFiles.forEach((file) => {
+            const filePath = file.path;
+            const fileUrl = `https://raw.githubusercontent.com/${urlmatched[1]}/${urlmatched[2]}/${RELEASE}/${filePath}`;
+            const fileExtension = path.extname(filePath);
+
+            if (fileExtension === '.lua') {
+                console.log("HI");
+                
+            }
+        });
+    })
+})
+
+    if (response2 === '') {
+        messageHandler.show('pluginImportedFailed', 2);
+        return;
+    } else {
+        console.log(`${URL}, ${RELEASE}`);
+        messageHandler.show('pluginImported');
+    }
 }
 
 function openMenu() {
